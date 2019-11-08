@@ -1,0 +1,145 @@
+﻿
+@{
+    ViewData["Title"] = "IndexDB_Index";
+    Layout = null;
+}
+<!--
+    参考网站：https://www.php.cn/html5-tutorial-359628.html
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <title></title>
+</head>
+<body>
+    <div>
+        <p>******测试客户端数据的缓存*****</p>
+        <div class="btngroup_test">
+            <button id="btn_01">btn_01</button>
+            <button id="btn_02">btn_02</button>
+            <button id="btn_03">btn_03</button>
+            <button id="btn_04">btn_04</button>
+            <button id="btn_05">btn_05</button>
+        </div>
+    </div>
+</body>
+</html>
+
+<script type="text/javascript">
+    var myindexdb = window.indexedDB;   
+    var currentdb = null;
+    var mydata = {
+        id:001,
+        name: "gamecc666",
+        age: 24,
+    };
+    var mydatas = [
+        { id: 1, name: "gamecc666", age: 25 },
+        { id: 2, name: "gamecc777", age: 54 },
+        { id: 3, name: "gamecc888", age:12}
+    ];
+    //创建数据库
+    function CreateDataBase(indexDbName) {
+        console.log("--开始创建&连接数据库");
+        //开始创建数据库如果不存在指定的名字，则重新创建一个
+        var openRequest = myindexdb.open(indexDbName, 1);
+
+        //创建失败
+        openRequest.onerror = function (e) {
+            console.log("--onerror回调事件 error: " + e.target.errorCode);
+        };
+        //打开数据库成功
+        openRequest.onsuccess = function (event) {
+            console.log("--onsuccess回调事件 created!");
+            currentdb = openRequest.result;            
+            //AddData();
+            //SearchData("gamecc666");
+            //GetData();
+            DeleteData();
+        };
+        //第一次创建数据库的时候（在onsuccess事件之前触发），和以后数据更新/数据库升级时候才触发
+        openRequest.onupgradeneeded = function (event) {
+            console.log("--onupgradeneeded回调事件");
+            console.log(event);
+            var db = openRequest.result;
+            var store;
+            if (!db.objectStoreNames.contains('works')) {
+                store = db.createObjectStore('works', { keyPath: 'id' });
+                console.log('成功创建对象存储空间：works');
+            }
+        };
+        //DeleteDB("firstdb");
+    };
+    ///删除数据库
+    function DeleteDB(dbname) {
+        var deleteDbRequest = window.indexedDB.deleteDatabase(dbname);
+        deleteDbRequest.onsuccess = function (event) {
+            console.log("--数据库删除成功！");
+        };
+        deleteDbRequest.onerror = function (e) {
+            console.log("--数据库删除失败！errorinfo:" + e.target.errorCode);
+        };
+    }
+    ///向表中添加数据
+    function AddData() {
+        console.log("--进入添加数据的函数");
+        let trans = currentdb.transaction("works", "readwrite");
+        let store = trans.objectStore("works");
+        //store.add(mydata);      ------------------针对单个对象
+        for (let i = 0; i < mydatas.length; i++) {
+            store.add(mydatas[i]);            
+        }
+    }
+    ///查看数据
+    function GetData() {
+        console.log("--进入查看数据的函数");
+        let trans = currentdb.transaction("works", "readwrite");
+        let store = trans.objectStore("works");
+        let request = store.get(1);
+        
+        request.onsuccess = function (event) {
+            console.log("--查看数据：" + request.result.name);
+        };
+        request.onerror = function (e) {
+            console.log("--查看数据失败！errorinfo:" + e.target.errorCode);
+        };
+    }
+    ///删除表中数据
+    function DeleteData() {
+        console.log("--进入删除数据的函数");
+        let trans = currentdb.transaction("works", "readwrite");
+        let store = trans.objectStore("works");
+        let request = store.delete(1);
+        
+        request.onsuccess = function (event) {            
+            console.log("--删除数据成功！！");            
+        };
+        request.onerror = function (e) {
+            console.log("--删除数据失败： " + e.target.errorCode);
+        };
+    }
+    ///自执行函数 
+    (function () {
+        if (typeof (window.indexedDB) != "undefined") {
+            console.log("--支持=>IndexDB");
+            CreateDataBase("MyIndexDb");
+        }
+        else {
+            console.log("--sorry!!不支持=>IndexDB");
+        }
+    })();
+    ///******按钮的处理事件*****
+    function SetCssPro(heid) {
+        $('.btngroup_test').children('button').each(function (index, item) {
+            let idstr = '#' + heid;
+            if (String(heid) === String(item.id)) {
+                $(idstr).css('background-color', "springgreen");
+            }
+            else {
+                $(item).css('background-color', "#f1f1f1");
+            }
+        });
+    }
+</script>
+

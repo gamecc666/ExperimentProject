@@ -1,0 +1,75 @@
+﻿
+@{
+    ViewData["Title"] = "WebStorageController_Index";
+     Layout = null;
+}
+<!--
+    参考网址：https://developer.mozilla.org/zh-CN/docs/Web/API/Web_Storage_API#%E4%BE%8B%E5%AD%90
+    API官网：https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API
+-->
+<html >
+<head>
+    <meta charset="utf-8" />
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <title>测试客户端缓存的使用，针对问题：界面刷新前后数据的缓存</title>
+</head>
+<body>
+    <div>
+        <p>******测试客户端数据的缓存*****</p>
+        <div class="btngroup_test">
+            <button id="btn_01">btn_01</button>
+            <button id="btn_02">btn_02</button>
+            <button id="btn_03">btn_03</button>
+            <button id="btn_04">btn_04</button>
+            <button id="btn_05">btn_05</button>
+        </div>
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+    (function () {
+        console.log("进入自执行函数");
+        console.log("******测试客户端数据的缓存*****");
+        if (typeof (Storage) != "undefined") {
+            console.log("该浏览器and版本支持本地存储");
+            console.log("输出缓存数据=>" + sessionStorage.getItem("clickbtnid"));
+            if (sessionStorage.getItem("clickbtnid") != null) {
+                let idstr = '#' + sessionStorage.getItem("clickbtnid");
+                $(idstr).css('background-color', "springgreen");
+            } else {
+                console.log("sessionStorage.getItem('clickbtnid')为空！");
+            }
+            $('.btngroup_test').children('button').each(function (index, element) {
+                $(element).on('click', function (event) {
+                    console.log("输出点击的对象的id:=>" + element.id);
+                    //localStorage.setItem("clickbtnid", String(element.id))         //针对的是没有时间限制得到数据存储
+                    sessionStorage.setItem("clickbtnid", String(element.id));        //针对的是每次的会话
+                    SetCssPro(element.id);
+                });
+            });
+        }
+        else {
+            console.log("sorry!!!该浏览器and版本不 支持本地存储");
+        }
+       
+    })();
+    ///******测试客户端数据的缓存*****
+    function SetCssPro(heid) {
+        $('.btngroup_test').children('button').each(function (index, item) {
+            let idstr = '#' + heid;
+            //console.log("输出要比较的两个id||ID1:" + heid+"||每个的id:" + item.id)
+            if (String(heid) === String(item.id)) {
+                //console.log("-yes-");
+                $(idstr).css('background-color', "springgreen");
+            }
+            else {
+                //console.log("-no-");
+                $(item).css('background-color', "#f1f1f1");
+            }
+        });
+    }
+</script>
+
+
+
+
