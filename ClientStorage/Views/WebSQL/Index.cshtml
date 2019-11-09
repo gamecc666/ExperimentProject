@@ -1,8 +1,14 @@
 ﻿
 @{
     ViewData["Title"] = "WebSQL_Index";
+    Layout = null;
 }
-
+<!--
+    用到的API：(tx等价于indexdb中的objectstore)
+        1：openDatabase（param1:数据库名字,param2:版本号,param3:数据库别名/介绍,param4:数据库大小,param5:建库成功回调,param6:建库失败回调）
+        2：transaction(param1:包含事务内容的一个方法（方法里面的函数参数等价于indexdb中的objectstore来执行sql语句）,param2:执行失败回调（回调函数参数（error））,param3:执行成功回调(回调函数参数(result)))
+        3：executeSql(param1:查询字符串,param2:用于替换查询字符串中问号的参数,param3:执行成功回调(回调参数（tx,res）),param4执行失败回调:(tx,error))
+-->
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
@@ -16,5 +22,52 @@
 <script type="text/javascript">
     (function () {
         console.log("进入Js的自执行函数！");
+        if (window.openDatabase) {
+            console.log("--该浏览器支持WebSQL database");
+        }
+        else {
+            console.log("--sorry!该浏览器不支持WebSQL database");
+        }
     })();
+
+    var db = openDatabase("mydb", "1.0", "my test db", 1024 * 1024 * 100, function (result) {
+        console.log("--数据库创建成功！");
+    });
+    console.log(typeof (db));
+    console.log(db);
+    /*表的创建和数据的插入 */
+    //db.transaction(function (tx) {
+    //    tx.executeSql('CREATE TABLE IF NOT EXISTS info (Id unique,value)');              //没有回调函数
+    //    tx.executeSql('INSERT INTO info(Id,value) VALUES(1,"gamecc666")');
+    //    tx.executeSql('INSERT INTO info(Id,value) VALUES(2,"gamecc777")');
+    //    tx.executeSql('INSERT INTO info(Id,value) VALUES(3,"gamecc888")');
+    //}, function (error) { console.log('事务执行失败！' + error.message); }, function (res) { console.log('事务执行成功！'); });
+    /* 删除表*/
+    //db.transaction(function (tx) {
+    //    console.log('--删除表');
+    //    tx.executeSql("DROP TABLE info", [], function (tx, res) { console.log(typeof (res)+"删除表成功！"); console.log(res); },function (tx, res) { console.log("删除表失败！") });
+    //});
+    /* 查询*/
+    //db.transaction(function (tx) {
+    //    console.log('--查询数据');
+    //    tx.executeSql('select * from info where Id=2', [], function (tx, results) {             --tx可以继续使用tx.excuteSql()
+    //        console.log(typeof (results));
+    //        console.log(results);
+    //        if (results.rows.length > 0) {
+    //            console.log("--Id为2用户的名字是：" + results.rows[0].value);
+    //        }
+    //    });
+    //});
+    /*修改*/
+    //db.transaction(function (tx) {
+    //    console.log('--修改表数据');
+    //    var sqlstr = 'update info set value=?  where id=2';
+    //    tx.executeSql(sqlstr,['gameyy'],function (tx, res) { console.log("删除表成功！"); console.log(res); },function (tx, res) { console.log("--删除表失败！")});
+    //}, function (error) { console.log('--修改数据事务执行失败，失败信息：' + error.message); }, function (re) { console.log('--修改数据事务执行成功！'); });
+    /*删除某个数据*/
+    //db.transaction(function (tx) {
+    //    console.log('--删除某个数据');
+    //    var sqlstr = 'delete from info where id=3';
+    //    tx.executeSql(sqlstr,[],function (tx, res) { console.log("删除数据成功！"); console.log(res); },function (tx, res) { console.log("--删除数据失败！")});
+    //}, function (error) { console.log('--删除数据事务执行失败，失败信息：' + error.message); }, function (re) { console.log('--删除数据事务执行成功！'); });
 </script>
