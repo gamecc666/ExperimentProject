@@ -1,0 +1,37 @@
+﻿@{
+    ViewData["Title"] = "Cookies_Index";
+    ViewData = null;
+}
+<!--
+    1:cookies:在服务端或者客户段都可以读取，在同一个域里面，cookies包含在头里面每次随着请求的发出，发送到服务器；此时服务器也可以读取都包含在头文件中的cookies数据
+    2:cookies:有大小限制：4K
+    3:使用chrome 来查看网页的编码格式：document.charset;设置编码格式使用chrome charset 插件即可
+    4:K是KB的简写
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <title>客户端数据存储技术4</title>
+</head>
+<body>
+    <h2>客户端使用Cookies进行数据存储</h2>
+</body>
+</html>
+
+<script type="text/javascript">    
+    var exdays = 1;                 //有效的时间天数
+    var data = new Date();
+    data.setTime(data.getTime() + (exdays * 24 * 60 * 60 * 1000));          //以ms为单位(如果不想以整天为单位的话可以选择将24修改即可)
+    var expires = "expires=" + data.toUTCString();                          //装换为UTS的时间格式
+    document.cookie = "name=gamecc666;" + expires+";path=/"
+
+    var curcookies = document.cookie.replace(/(?:(?:^|.*;\s*)test2\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    (function () {
+        console.log("--进入自执行函数！");
+        console.log( document.cookie);
+    })();    
+    ///修改数据也就是把之前的重新再写一遍即可
+    ///删除cookies原理很简单：就是把有效时间设置为过去的时间即可
+    //document.cookie = "name=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/";
+</script>

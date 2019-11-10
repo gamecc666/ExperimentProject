@@ -57,7 +57,7 @@ namespace ClientStorage
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=WebSQL}/{action=Index}/{id?}");
+                    template: "{controller=Cookies}/{action=Index}/{id?}");
             });
         }
     }
