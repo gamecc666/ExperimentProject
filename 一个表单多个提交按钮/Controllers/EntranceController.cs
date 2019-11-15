@@ -15,6 +15,7 @@ namespace 一个表单多个提交按钮.Controllers
         [HttpPost]
         public IActionResult DealData()
         {
+            //FormCollection:表单集合；参考网址：https://docs.microsoft.com/zh-cn/dotnet/api/microsoft.aspnetcore.http.formcollection?view=aspnetcore-2.0
             FormCollection col = (FormCollection)Request.Form;
             string name = col["username"];
             string age = col["age"].ToString();
