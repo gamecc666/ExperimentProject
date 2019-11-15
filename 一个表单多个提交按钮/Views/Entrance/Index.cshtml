@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewData["Title"] = "Entrance_Index";
+}
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <title>一个表单多个提交按钮</title>
+</head>
+<body>
+    <h2>解决一个表单多个提交按钮</h2>
+    <div>
+        <form id="form1" name="form1" action="/Entrance/DealData" method="post">
+            <span>姓名：<input type="text" name="username" value="" /></span>
+            <span>年龄：<input type="text" name="age" value="" /></span>
+            <button type="submit" onclick="document.form1.action='/Entrance/SaveData'">保存</button>
+            <button type="submit" onclick="document.form1.action='/Entrance/DealData'">提交</button>
+        </form>
+    </div>
+</body>
+</html>
+
