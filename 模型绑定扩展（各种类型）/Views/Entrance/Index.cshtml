@@ -1,0 +1,27 @@
+﻿@*@using Newtonsoft.Json;
+@model JsonResult*@
+
+@model List<string>
+@*@model int*@
+@{
+    ViewData["Title"] = "Entrance_Index";
+}
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <title></title>
+</head>
+<body>
+    @*<h2>后台传来的整数值为：@Model</h2>*@
+    @for (int i = 0; i < 3; i++)
+        {
+            @i<input asp-for="@Model[i]" /><br />
+        }    
+</body>
+</html>
+
+<script type="text/javascript">
+    
+</script>
