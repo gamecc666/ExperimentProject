@@ -1,0 +1,68 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = null;
+}
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <title></title>
+</head>
+<body>
+    <h1>Index</h1>
+    <select id="select_01">
+        <option value="gamecc111">gamecc111</option>
+        <option value="gamecc222">gamecc222</option>
+        <option value="gamecc333">gamecc333</option>
+        <option value="gamecc444">gamecc444</option>
+    </select>
+    <select id="select_02">
+        <option value="gamecc111">gamecc111</option>
+        <option value="gamecc222">gamecc222</option>
+        <option value="gamecc333">gamecc333</option>
+        <option value="gamecc444">gamecc444</option>
+    </select>
+</body>
+</html>
+
+<script type="text/javascript">
+    var selectobj = {};
+    selectobj.content = ['select_01', 'select_02'];
+    selectobj.selectvalue = null;
+
+    $(document).ready(
+        ///绑定值改变的处理函数
+        function SelectValueChange() {
+            for (let idstr of selectobj.content) {
+                console.log(idstr);
+                $('#' + idstr).change(function (event) {
+                    console.log('select的值开始改变了！');
+                    console.log(event);                    
+                    for (let str of selectobj.content) {
+                        if (str == event.currentTarget.id) {
+                            //如果两个id相等只处理上次隐藏掉的；
+                            if (selectobj.selectvalue != null) {
+                                let operstr = "#" + str + " option[value='" + String(selectobj.selectvalue) + "']";
+                                $(operstr).show();
+                            }                           
+                        }
+                        else {
+                            if (selectobj.selectvalue != null) {
+                                let operstr = "#" + str + " option[value='" + String(selectobj.selectvalue) + "']";
+                                $(operstr).show();
+                            }   
+                            let operstr = "#" + str + " option[value='" + String(event.currentTarget.value) + "']";
+                            //$(operstr).remove();
+                            $(operstr).hide();
+                        }
+                    }
+                    selectobj.selectvalue = event.currentTarget.value;
+                });
+            }
+        }
+    );    
+    
+</script>
+

@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewData["Title"] = "Entrance_Index";
+    Layout= null;
+}
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <title>页面局部刷新</title>
+    <style type="text/css">
+        .relative_div {
+            width:100%;
+            height:30%;
+            background-color:aqua;
+        }
+        .paritcal_update_div{
+            width:100%;
+            height:40%;
+            background-color:chartreuse;
+        }
+    </style>
+</head>
+<body>
+    <div class="relative_div">
+        <p>Me is first Div!</p>
+        <button class="load_page_btn" id="load_page_btn">加载下面界面</button>
+    </div>
+    <div class="paritcal_update_div"></div>
+
+</body>
+</html>
+
+<script type="text/javascript">    
+    $('.load_page_btn').on('click', function (event) {
+        //console.log("--------------点击按钮事件的的数据-----------------------");
+        //console.log(event.currentTarget.id);
+        console.log("点击了页面更新按钮！");
+        $('.paritcal_update_div').load ('/Entrance/NeedPage');
+    });
+</script>
