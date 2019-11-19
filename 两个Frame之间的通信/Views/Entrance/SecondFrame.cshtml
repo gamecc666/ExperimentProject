@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewData["Title"] = "SecondFrame";
+    Layout = "_Layout";
+}
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <title></title>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+</head>
+<body>
+    <select id="secondframe_select">
+    </select>
+</body>
+</html>
+<script type="text/javascript">
+   (function (){
+       console.log("secondframe的一次性");     
+       //绑定事件
+       $('#firstframe_select').change(function (event) {
+           //window.parent.firstframe
+       });
+    })();
+</script>
+

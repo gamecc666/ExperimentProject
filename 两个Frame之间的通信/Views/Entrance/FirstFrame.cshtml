@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewData["Title"] = "FirstFrame";
+    Layout = "_Layout";
+}
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <title></title>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+</head>
+<body>
+    <select id="firstframe_select">
+        <option value="first_sel1">first_sel1</option>
+        <option value="first_sel2">first_sel2</option>
+        <option value="first_sel3">first_sel3</option>
+    </select>
+</body>
+</html>
+<script type="text/javascript">
+   (function (){
+       console.log("firstframe的一次性");     
+       //绑定事件
+       $('#firstframe_select').change(function (event) {
+           console.log(typeof (window.parent.secondframe));
+           console.log('---------------');
+           console.log(window.parent.secondframe);
+           console.log('---------------');
+           var htmlstr = '<option value="second_sel1">second_sel1</option><option value="second_sel2">second_sel2</option><option value="second_sel3">second_sel3</option>';
+           console.log(window.parent.secondframe.document.getElementById('secondframe_select'));
+           window.parent.secondframe.document.getElementById('secondframe_select').innerHTML=htmlstr;
+           
+       });
+    })();
+</script>
+
