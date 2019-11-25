@@ -1,0 +1,104 @@
+﻿
+@{
+    ViewData["Title"] = "Entrance_Index";
+    Layout = null;
+}
+
+<!--
+    一：测试内网的地图是否配置成功的方法：直接将esri.css的href链接与init.js的src链接放到浏览器中，
+        如果显示地图则配置成功，否则失败
+    二：每个模块都是一个单独的js文件；init.js就是主模块，其他各个模块在esri的文件夹中
+    三：参考资料在官方库文件解压后的install_api_windows.html
+-->
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>ArcgisForJS内网开发</title>
+    <!--地图的样式文件-->
+    <link href="http://localhost:1787/js/3.30/esri/css/esri.css" type="text/css" rel="stylesheet" />
+    <!--就是Dojo的UI框架里面包含各种组件-->
+    <link href="http://localhost:1787/js/3.30/dijit/themes/tundra/tundra.css" type="text/css" rel="stylesheet" />
+    <!--地图的初始化文件-->
+    <script type="text/javascript" src="http://localhost:1787/js/3.30/init.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0px;
+            padding: 0px;
+            background-color: aqua;
+        }
+
+        .parent_div {
+            width: 60%;
+            height: 100%;
+            margin: 0 auto;
+            background-color: chartreuse;
+        }
+
+        .function_btns_div {
+            width: 100%;
+            height: 15%;
+            background-color: burlywood;
+        }
+
+        #map_show_areas_div {
+            width: 100%;
+            height: 70%;
+            background-color: darkorange;
+        }
+
+        .map_info_div {
+            width: 100%;
+            height: 15%;
+            background-color: dodgerblue;
+        }
+    </style>
+
+
+</head>
+<body>
+    <div class="parent_div">
+        <div class="function_btns_div">
+            <button id="show_image_btn"></button>
+        </div>
+        <div id="map_show_areas_div" ></div>
+        <div class="map_info_div"></div>
+    </div>
+    
+    <script type="text/javascript">
+        var map;
+        ///地图入口
+        require([
+            "esri/map",
+            "esri/layers/ArcGISTiledMapServiceLayer",
+            "esri/layers/GraphicsLayer",
+            "esri/geometry/Point",
+            "esri/SpatialReference",
+            "esri/symbols/PictureMarkerSymbol",
+            "esri/InfoTemplate",
+            "esri/graphic"
+        ], function (Map, ArcGISTiledMapServiceLayer,GraphicsLayer,Point,SpatialReference,PictureMarkerSymbol,InfoTemplate,Graphic) {
+            map = new Map("map_show_areas_div");
+            //If you do not have Internet access then you will need to point this url to your own locally accessible tiled service.
+            var tiled = new ArcGISTiledMapServiceLayer("http://zhuoyu-server:6080/arcgis/rest/services/map/MapServer");
+            map.addLayer(tiled);
+            map.setZoom(4);               //设置地图的初始显示大小
+
+            /**********************************************************功能1：实现图片的添加*********************************************************************/
+            var lyGraphic = new GraphicsLayer();        //初始化并添加动态图层
+            map.addLayer(lyGraphic);
+
+            var point = new Point(12650985.623, 4133132.184, new SpatialReference({ wkid: 3857 }));
+            var pictureMarkerSymbol = new PictureMarkerSymbol("http://localhost:1787/Images/head.jpg", 60, 60);
+            var infoTemplate = new InfoTemplate('标题:${name}', '内容:${info}');
+            var attribute = { name: 'gamecc666', info: '年龄：12，未婚' };
+            var graphic = new Graphic(point, pictureMarkerSymbol, attribute, infoTemplate);
+            lyGraphic.add(graphic);
+            /**********************************************************功能2：实现图片的添加*********************************************************************/
+            
+        });
+    </script>
+</body>
+</html>
+
+
