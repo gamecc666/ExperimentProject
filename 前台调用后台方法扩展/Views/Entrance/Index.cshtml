@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>前台调用后台方法扩展</title>
+    <script type="text/javascript" src="~/lib/jquery/dist/jquery.js"></script>
+</head>
+<body>
+</body>
+</html>
+<script type="text/javascript">
+    (function () {
+        console.log('进入自执行函数');
+        console.log('从前台获取到的数据：'+'@ViewBag.classInstance.GetUserName(5)');
+    })();
+</script>
