@@ -1,0 +1,98 @@
+﻿
+@{
+    ViewData["Title"] = "Entrance_Index";
+}
+<!--
+   参考网址：w3school.com.cn/jsref/dom_obj_canvasrenderingcontext2d.asp     
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <title>使用H5Canvas绘制几何图形</title>
+    <script type="text/javascript" src="~/lib/jquery/dist/jquery.js"></script>
+    <style type="text/css">
+        body {
+            background-color:aqua;
+        }
+        canvas {
+            background-color:blanchedalmond;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <canvas id="mycanvas" width=600 height=400></canvas>
+    </div>    
+</body>
+</html>
+<script type="text/javascript">
+    $().ready(function () {
+        console.log($('#mycanvas'));
+        console.log($('#mycanvas')[0]);
+        console.log(document.getElementById('mycanvas'));
+        //console.log($(document.getElementById('mycanvas')));
+        var MyCanvas = document.getElementById('mycanvas');
+        /*
+        * getContext('2d')=>指定一个绘图环境（2d专用）
+        * getContext('webgl')=>同上（3d专用）
+        * 通俗讲canvas<==>画布||ctx<==>画笔；多有的操作都是针对画笔来操作的
+        */
+        var ctx = MyCanvas.getContext('2d');
+        /*
+        * 绘制三角形
+        * moveTo=>线段的起点
+        * lineTo=>线段的终点
+        * ctx.stroke();=>开始绘制物体为空心
+        * ctx.closePath()=>实心图形
+        */
+        //ctx.lineWidth = 30;
+        //ctx.moveTo(100,100);
+        //ctx.lineTo(400, 400);
+        //ctx.lineTo(100, 400);
+        //ctx.lineTo(100, 100);
+        //ctx.closePath();
+        //ctx.fill();
+        /*
+         * 绘制弧形
+         * 方法：arc(圆心x,y,半径，起始弧度，结束弧度，弧线方向)=>true:逆时针   false=>顺时针
+         * ctx.beginPath();=>可消除多个图形之间的连线
+         */
+        /*发射点*/
+        ctx.beginPath();
+        ctx.arc(225, (400 - 125 * Math.sqrt(3)), 5, 0, 2 * Math.PI);
+        ctx.stroke();
+        /*发射线路*/
+        ctx.beginPath();
+        ctx.moveTo(225, 400 - 125 * Math.sqrt(3));
+        ctx.lineTo(150, 400 - 200 * Math.sqrt(3));        
+        ctx.stroke();
+        /*目标点*/
+        ctx.beginPath();
+        ctx.arc(475, (400 - 125 * Math.sqrt(3)), 5, 0, 2 * Math.PI);
+        ctx.stroke();
+        /*检测线路*/
+        ctx.beginPath();
+        ctx.moveTo(475, 400 - 125 * Math.sqrt(3));
+        ctx.lineTo(150, 400 - 200 * Math.sqrt(3));    
+        ctx.stroke();
+        /*文字标注*/
+        ctx.fillText("酒泉", 225, 400 - 125 * Math.sqrt(3), 50);
+        ctx.fillText("日本", 475, 400 - 125 * Math.sqrt(3), 50);
+        ctx.fillText("雷达检测范围", 150, 400 - 200 * Math.sqrt(3), 50);
+        /*地球*/
+        ctx.beginPath();
+        ctx.arc(350, 400, 250, Math.PI / -4, -3 * Math.PI / 4, true);
+        ctx.stroke();
+        /*
+         * 使用贝塞尔曲线话弧线
+         * quadraticCurveTo(cpX,cpY,x,y)=>第一个和第二个控制点坐标（二次贝塞尔曲线）
+         * bezierCurveTo(x1,y1,x2,y2,ex,ey)=>第一个和第二个控制点坐标，加上终点坐标
+         */
+        //ctx.beginPath();
+        //ctx.moveTo(40, 340);
+        //ctx.quadraticCurveTo(260, 80, 360, 300);
+        //ctx.strokeStyle = "#f40";
+        //ctx.stroke();
+    });  
+</script>
+
