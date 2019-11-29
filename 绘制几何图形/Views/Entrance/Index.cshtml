@@ -65,21 +65,27 @@
         /*发射线路*/
         ctx.beginPath();
         ctx.moveTo(225, 400 - 125 * Math.sqrt(3));
-        ctx.lineTo(150, 400 - 200 * Math.sqrt(3));        
+        ctx.lineTo(150, 380 - 200 * Math.sqrt(3));        
         ctx.stroke();
-        /*目标点*/
+        /*目标点-日本*/
         ctx.beginPath();
         ctx.arc(475, (400 - 125 * Math.sqrt(3)), 5, 0, 2 * Math.PI);
+        ctx.stroke();
+        /*目标点-韩国*/
+        ctx.beginPath();
+        ctx.arc(350 + 62.5 * (Math.sqrt(6) - Math.sqrt(2)), (400 - 62.5 * (Math.sqrt(6) +Math.sqrt(2))), 5, 0, 2 * Math.PI);
         ctx.stroke();
         /*检测线路*/
         ctx.beginPath();
         ctx.moveTo(475, 400 - 125 * Math.sqrt(3));
-        ctx.lineTo(150, 400 - 200 * Math.sqrt(3));    
+        ctx.lineTo(150, 380 - 200 * Math.sqrt(3));    
         ctx.stroke();
         /*文字标注*/
         ctx.fillText("酒泉", 225, 400 - 125 * Math.sqrt(3), 50);
         ctx.fillText("日本", 475, 400 - 125 * Math.sqrt(3), 50);
-        ctx.fillText("雷达检测范围", 150, 400 - 200 * Math.sqrt(3), 50);
+        ctx.fillText("雷达检测范围", 150, 380 - 200 * Math.sqrt(3), 50);
+        ctx.font = "20px Georgia";
+        ctx.fillText("日本雷达扫描到导弹时间", 200, 350, 300);
         /*地球*/
         ctx.beginPath();
         ctx.arc(350, 400, 250, Math.PI / -4, -3 * Math.PI / 4, true);
