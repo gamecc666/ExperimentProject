@@ -1,4 +1,4 @@
-﻿using ConsoleProject.库文件;
+﻿using ConsoleProject.interfacelib;
 using System;
 
 
@@ -8,12 +8,13 @@ namespace ConsoleProject
     {
         static void Main(string[] args)
         {
-            BackValueTuple.GetPerInfo();               //测试C#7.0元组
-            Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd hh:mm"));   //日期格式测试            
-           CallPython.GetDataFromPython();      //调用python第三方模块
-            Console.WriteLine("***************测试结束***************");
+            Console.WriteLine("*****************************************开始测试**********************************************");
+            //C#7.0元组，返回多个值
+            BackValueTuple.GetPerInfo();
+            //设置日期格式
+            Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd hh:mm"));
+            Console.WriteLine("*****************************************测试结束**********************************************");
             Console.ReadKey();
-        }
-     
+        }     
     }
 }

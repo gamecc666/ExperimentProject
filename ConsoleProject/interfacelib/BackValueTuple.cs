@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ConsoleProject
+namespace ConsoleProject.interfacelib
 {
     /// <summary>
     /// 测试C#7.0中函数返回多个值的问题

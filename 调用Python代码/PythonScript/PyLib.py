@@ -1,4 +1,8 @@
+#!/usr/bin/env python        
+# coding=utf-8
+
 import sys
+
 
 reload(sys)
 
@@ -8,7 +12,7 @@ def GetSum(a,b):
     return total;
 
 def SayWord():
-    try:
+    try:        
         return "hello world!";
     except Exception as err:
         return str(err);
@@ -22,5 +26,6 @@ def GetNumbersSum():
     return 0;
 
 def TestString():
-    
-  return '等等我,我就来了，第一次调用Python'
+    print("--------------------开始执行python方法-------------------");
+    print("--------------------结束执行python方法-------------------");
+    return '等等我,我就来了，第一次调用Python';
