@@ -13,6 +13,8 @@ namespace ConsoleProject
             BackValueTuple.GetPerInfo();
             //设置日期格式
             Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd hh:mm"));
+            //测试循环索引
+            Recyle.TestCycle();
             Console.WriteLine("*****************************************测试结束**********************************************");
             Console.ReadKey();
         }     
