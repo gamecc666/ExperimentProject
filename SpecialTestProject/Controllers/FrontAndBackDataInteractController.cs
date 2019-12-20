@@ -77,6 +77,17 @@ namespace SpecialTestProject.Controllers
             Console.WriteLine(_res);
             return Json(_res);
         }
+        [HttpPost]
+        //使用数组传数据
+        public IActionResult ArrayData(string[] arr)
+        {
+            foreach(var item in arr)
+            {
+                Console.WriteLine("输出数组中的信息");
+                Console.WriteLine($"{item}");
+            }
+            return Json(arr);
+        }      
     }
    
 }

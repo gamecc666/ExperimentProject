@@ -17,7 +17,8 @@
         <button type="button" id="but3">传递数据通过Json</button><br /><br />
         <button type="button" id="but4">传递单个Json对象</button><br /><br />
         <button type="button" id="but5">传递多个Json对象</button><br /><br />
-        <button type="button" id="but6">传递Json对象集合</button>
+        <button type="button" id="but6">传递Json对象集合</button><br /><br />
+        <button type="button" id="but7">使用数组传递数据</button>
     </div>
 </body>
 </html>
@@ -155,4 +156,22 @@
             }
         });
     });
+    //使用数组传数据
+    $('#but7').on('click', function (event) {
+        var arr = ['gamecc666', 'gamecc777', 'gamecc888'];
+        $.ajax({
+            url: '/FrontAndBackDataInteract/ArrayData',
+            type: 'post',
+            traditional: true,
+            data: {arr},
+            dataType: "json",
+            success: function (data) {
+                console.log('返回的数组：', data);
+            },
+            error: function (errorinfo) {
+                alert(`错误信息：${errorinfo}`);
+            }
+        });
+    });
+    //使用Map传递数据
 </script>
