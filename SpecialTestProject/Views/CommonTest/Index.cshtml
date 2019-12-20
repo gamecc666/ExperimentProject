@@ -1,0 +1,193 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = null;
+}
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="utf-8"/>
+        <link href="~/jquery-easyui-1.8.1/themes/default/easyui.css" rel="stylesheet" />
+        <link href="~/jquery-easyui-1.8.1/themes/icon.css" rel="stylesheet" />
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/jquery-easyui-1.8.1/jquery.easyui.min.js"></script>
+        <title>CommonTestController</title>
+        <!--
+            参考网站：www.w3cschool.cn/cssref/css3-pr-filter.html
+            opacity:规定元素的不透明级别
+            filter:定义了元素的可是效果（eg：模糊与饱和度）
+        -->
+        <style>
+            .frontpic {
+                margin:auto auto; 
+                text-align:center;                
+                opacity:0.8;
+                filter:alpha(opacity=80);                
+            }
+            /*#btn_1 {
+                background-color:#4682b4;
+            }*/
+        </style>
+    </head  >
+    <!--测试html页面中添加背景图-->
+    <body background="/pictures/hawk.jpg">
+        <div>
+            @*测试 .netcore项目里面使用http,出现混乱内容*@
+            <form action="http://zhuoyu-server:6080/arcgis/rest/services/map/MapServer?f=jsapi" method="post">
+                <input type="submit" value="提交" />
+            </form>
+        </div>
+        <div>
+            <!--测试html5新增功能=>自定义属性-->
+            <ul>
+                <li id="dog" animaltype="家畜" onclick="ShowDetailData(this)">小狗</li>
+                <li id="fish" data_animaltype="海鲜" onclick="ShowDetailData(this)">小鱼</li>
+                <li id="bird" data_animaltype="飞禽" onclick="ShowDetailData(this)">麻雀</li>
+                <li id="pig" data_animaltype="家畜" onclick="ShowDetailData(this)">小猪</li>
+            </ul>
+        </div>
+        <br />
+        <div>
+            <!--方法一测试文件选择框,详细参考www.jeasyui,net/demo/356.html
+        <input class="easyui-filebox" name="file_select" data-options="prompt:'Choose a file...'" style="width:300px"
+        方法二-->
+            <input id="fileload" type="text" style="width:300px" />
+        </div>
+        <div class="frontpic">
+            <button id="togglebut">显示or隐藏图片</button>
+            <!--测试在中心添加一张图片-->
+            <img src="~/pictures/headculat.jpg" id="front_background" />
+        </div>
+        <br />
+        <div>
+            <button type="button" id="lambdabut">Lambda测试</button>
+        </div>
+        <br />
+        <div id="butcontent">
+            <button type="button" id="showunablebut">测试$('htmlcode')点击完跳出来一个按钮</button>
+        </div>
+        <br />
+        <br />
+        <!--测试多个按钮情况下，点击哪个按钮，该按钮高亮-->
+        <div>
+            <p>-------测试多个按钮情况下，点击哪个按钮，该按钮高亮--------</p>
+            <div class="btngroup_test">
+                <button id="btn_1">but_01</button>
+                <button id="btn_2">but_02</button>
+                <button id="btn_3">but_03</button>
+                <button id="btn_4">but_04</button>
+                <button id="btn_5">but_05</button>
+            </div>
+        </div>
+    </body>
+</html>
+
+
+
+<script type="text/javascript">     
+    ///浏览器数据的存储（针对刷新前后数据的缓存）   
+    function UseLocalStorgeCache() {        
+        //console.log("---开始使用浏览器的本地存储： " + localStorage.getItem("clickbtnid"));
+        //localStorage.clear();
+        console.log("---开始使用浏览器的本地存储： " + sessionStorage.getItem("clickbtnid"));
+    }
+    ///测试一个按钮实现一个div的显示与隐藏
+    $('#togglebut').on('click', function () {
+        $('#front_background').toggle();
+    });
+    ///测试通过$(html代码)实现代码的动态加载(证明出处：jquery官网=>jquery123.com/jquery/)    
+    $('#showunablebut').on('click', function () {
+        console.log('测试新方法动态添加代码');
+        let btn = $('<button>我出来了哈哈！</button>');
+        btn.on('click', function () {
+            console.log('clicked!');
+        });
+        $('#butcontent').append(btn);       
+    });
+    ///测试lambda与Func<>委托的结合使用
+    $('#lambdabut').on('click', function () {
+        console.log("这是测试lambda和委托Func<>结合使用的例子");
+        $.getJSON('/CommonTest/GetBackData', function (data) {
+            console.log('最终结果是：'+data);
+        });
+    });
+    ///自执行函数
+    (function () {       
+        console.log("----------进入自调用执行函数中------");
+        ///浏览器数据的存储（针对刷新前后数据的缓存）
+        if (typeof (Storage) != "undefined") {
+            console.log("该浏览器and版本支持本地存储");
+            UseLocalStorgeCache();
+        }
+        else {
+            console.log("sorry!!!该浏览器and版本不 支持本地存储");
+        }
+        console.log('测试过个按钮绑定一个事件==>');
+        $('.btngroup_test').children('button').each(function (index, element) {
+            $(element).on('click', function (event) {
+                console.log("输出点击的对象的id;" + element.id);
+                //localStorage.setItem("clickbtnid", String(element.id))
+                sessionStorage.setItem("clickbtnid", String(element.id));
+                SetCssPro(element.id);               
+            });
+        });       
+        ///测试文件上传功能
+        $('#fileload').filebox({
+            buttonText: "选择文件",
+            buttonAligin: 'left'
+        });
+    })();
+    ///测试过个按钮绑定一个事件
+    function SetCssPro(heid) {
+        $('.btngroup_test').children('button').each(function (index, item) {
+            let idstr = '#' + heid;
+            console.log("输出要比较的两个id||ID1:" + heid+"||每个的id:" + item.id)
+            if (String(heid) === String(item.id)) {
+                console.log("-yes-");                
+                $(idstr).css('background-color', "springgreen");
+            }
+            else {
+                console.log("-no-");
+                $(item).css('background-color', "#f1f1f1");                
+            }
+        });
+    }
+    ///测试html5新增功能=>自定义属性
+    function ShowDetailData(animal) {
+        //自定义属性值获取的第一种方法
+        //let animalType = animal.getAttribute('animaltype');
+        let animalType = animal.getAttribute('data_animaltype');//也可以使用
+        alert(animal.innerHTML + "是一种" + animalType + "!");
+        //自定义属性值获取的第二种方法（推荐使用此方法=>前提浏览器支持dataset，在这里由于浏览器版本不支持dataset，所以会报错未定义）
+        //let node = document.getElementById('dog');
+        //alert("附加的属性值："+node.dataset.data_animaltype);
+    }
+    ///测试变量的作用范围
+    function TestFun1() {
+        if (true) {
+            var x = 12;
+            let y = 43;
+        }
+        console.log("输出x的内容:" + x);//输出12
+        //console.log("输出y的内容:" + y);//在ECMAScript 6的规范中使用let生命的局部变量只能在函数里面使用;所以这里会报错提示 y 未被定义
+    }
+    TestFun1();
+    //console.log("输出y的内容:" + y);//浏览器报错提示 y 未被定义
+    //console.log("输出x的内容："+x);//浏览器报错提示 x 未被定义
+
+    ///测试JS中的回调函数
+    function CallFun(callbackfunction) {
+        let a = 10;
+        let b = 20;
+        return callbackfunction(a, b);
+    }
+    function CalledFun(num1, num2) {
+        let sum = num1 + num2;
+        return sum;
+    }
+    (function () {
+        let resstr = CallFun(CalledFun);
+        console.log("两个数的和为：" + resstr);//输出结果为30
+    })();
+</script>
+
+

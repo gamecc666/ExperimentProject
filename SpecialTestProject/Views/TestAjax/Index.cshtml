@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+    
+        <h3>Gamecc666 Test Ajax</h3>
+        <form name="validationForm" action="validateForm" method="post">
+            <table>
+                <tr>
+                    <td> Id:</td>
+                    <td>
+                        <input type="text" size="20" id="catalogId" name="catalogId" >
+                    </td>
+                    <td>
+                        <div id="validationMessage"></div>
+                    </td>
+                    <td>
+                        <button type="button" size="20" id="butId" onclick="sendRequest()">OK</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+<script type="text/javascript"> 
+    //js的自执行方法
+    $(function () { });
+
+    var xmlHttpRequest;
+    function init() {
+        if (window.XMLHttpRequest) {
+            xmlHttpRequest= new XMLHttpRequest();
+        }
+        else if (window.ActiveXObject) {
+            xmlHttpRequest= new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        else {
+            console.log("----初始化失败---");
+        }
+    }
+
+    function StateChange() {
+        console.log("----------1---------");
+        if (xmlHttpRequest.readyState == 4) {
+            if (xmlHttpRequest.status == 200) {
+                console.log("逻辑走通");
+                //xmlHttpRequest = new XMLHttpRequest();
+                console.log("相应类型的枚举值：" + xmlHttpRequest.responseText);
+            }
+            else {
+                console.log("逻辑未走通");
+            }
+        }
+        else {
+            console.log("状态不到！");
+        }
+    }
+
+    function sendRequest() {        
+        var catalogId = encodeURIComponent($("#catalogId").val());
+        init();
+        if (xmlHttpRequest != null) {
+            xmlHttpRequest.onreadystatechange = StateChange;
+            xmlHttpRequest.open("GET", "/TestAjax/GetXMLFromClient", true);
+            xmlHttpRequest.setRequestHeader("Content-Type", "text/xml");
+            xmlHttpRequest.send(catalogId);
+        }
+        else {
+            console.log("XMLHttpRequest 为空");
+        }
+    };
+</script>

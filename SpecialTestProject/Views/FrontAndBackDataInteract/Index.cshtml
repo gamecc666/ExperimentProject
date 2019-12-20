@@ -1,0 +1,158 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <title></title>
+</head>
+<body>
+    <h1>测试前后台Json数据交互</h1>
+    <div>
+        <button type="button" id="but1">传递基本的数据类型</button><br /><br />
+        <button type="button" id="but2">传递单个对象</button><br /><br />
+        <button type="button" id="but3">传递数据通过Json</button><br /><br />
+        <button type="button" id="but4">传递单个Json对象</button><br /><br />
+        <button type="button" id="but5">传递多个Json对象</button><br /><br />
+        <button type="button" id="but6">传递Json对象集合</button>
+    </div>
+</body>
+</html>
+
+<script type="text/javascript">
+    //测试传递基本数据类型
+    $('#but1').on('click', function () {
+        console.log("这是传递基本的数据类型的点击事件！");
+        var obj = {
+            parm1:100,
+            parm2:"我是string类型",
+            parm3:true,
+            parm4: 1.23
+        };
+        $.getJSON('/FrontAndBackDataInteract/BaseDataClass', obj, function (data) {
+            console.log("返回的数据是：" + data);
+            alert("后台返回的Json数据：" + data);
+        });
+    });
+    //测试传递单个对象
+    $('#but2').on('click', function () {
+        console.log("这是传递单个对象的点击事件！");
+        var obj = {
+            Name:"gamecc666",
+            Age:28,
+            Gender:"女",
+            Email: "995611928@qq.com"
+        };
+        $.getJSON('/FrontAndBackDataInteract/SingleObject', obj, function (data) {
+            console.log(data);
+            alert(data);
+        });
+    });
+    //测试传递数据通过Json
+    $('#but3').on('click', function () {
+        console.log('这是传递单个Json对象的点击事件！');        
+        $.ajax({
+            url: '/FrontAndBackDataInteract/TransferDataByJson',
+            type: 'post',
+            contentType: 'application/json',           
+            data: JSON.stringify({
+                Name:"小狗",
+                Age:2,
+                Sound:"旺旺"
+            }),                           
+            success: function (data) {
+                console.log(data);
+                alert(JSON.stringify(data));
+            },
+            error: function (err) {
+                console.log(err);               
+            }
+        });
+    });
+    //测试传递单个Json对象
+    $('#but4').on('click', function () {
+        console.log('这是传递单个Json对象的点击事件！');
+        var dogobj = {
+            Name:"小狗",
+            Age:2,
+            Sound:"旺旺"
+        };       
+        $.ajax({
+            url: '/FrontAndBackDataInteract/SingleJsonObject',
+            type: 'post',
+            contentType: 'application/json',                               
+            data: JSON.stringify({dogobj}),  
+            success: function (data) {
+                console.log(data);
+                alert(JSON.stringify(data));
+            },
+            error: function (err) {
+                console.log(err);               
+            }
+        });
+    });
+    //测试传递多个Json对象
+    $('#but5').on('click', function () {
+        console.log('这是传递多个Josn对象的点击事件！');
+        var dog = {
+            Name:"小狗",
+            Age:2,
+            Sound:"旺旺"
+        };
+        var pig = {
+            Name: "小猪",
+            P_Age: 3,
+            P_Sound:"莽莽"
+        };       
+        $.ajax({
+            url: '/FrontAndBackDataInteract/MoreJsonObject',
+            type: 'post',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                dogobj:  dog,
+                pigobj:  pig
+            }),                       
+            success: function (data) {
+                console.log(data);
+                alert(data);
+            },
+            error: function (err) {
+                console.log(err);               
+            }
+        });
+    });
+    //测试传递Json对象集合
+    $('#but6').on('click', function () {
+        console.log('这是传递Josn对象集合的点击事件！');
+        var dog = {
+            Name:"小狗",
+            Age:2,
+            Sound:"旺旺"
+        };
+        var pig = {
+            Name: "小猪",
+            P_Age: 3,
+            P_Sound:"莽莽"
+        };       
+        var objlist = [];
+        objlist.push(dog);
+        objlist.push(pig);
+
+        $.ajax({
+            url: '/FrontAndBackDataInteract/JsonObjectList',
+            type: 'post',
+            contentType: 'application/json',
+            data: JSON.stringify({objlist}),                       
+            success: function (data) {
+                console.log(data);
+                alert(data);
+            },
+            error: function (err) {
+                console.log(err);               
+            }
+        });
+    });
+</script>

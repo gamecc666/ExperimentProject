@@ -1,0 +1,19 @@
+﻿@model SpecialTestProject.Models.Persion
+@{
+    ViewData["Title"] = "GetPersionData";
+}
+
+<h1>GetPersionData</h1>
+
+<html>
+<head>
+</head>
+<body>
+    <form asp-action="GetPersionData" asp-controller="ViewDefault" method="post">
+        名称:<input name="Name"  asp-for="Name"/>
+        年龄:<input asp-for="Age"/>
+        性别：<input asp-for="Gender" />
+        <button type="submit">提交</button>
+    </form>
+</body>
+</html>

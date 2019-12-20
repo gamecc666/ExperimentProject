@@ -1,0 +1,244 @@
+﻿@{
+    ViewData["Title"] = "GetPersionData";
+}
+
+
+@*
+    解决输入框中有空格的情况
+    onkeyup="this.value=this.value.replace(/^ +| +$/g,'')
+*@
+<!DOCTYPE html>
+<style>
+</style>
+<html>
+<head>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+</head>
+<body>
+    <form action="/FormDemo/GetPersion" method="post">
+        <div>
+            <div>
+                <label for="Name">姓名：</label>
+                <input id="_str" type="text" name="Name" onkeyup='this.value=this.value.replace(/\s+/g,"")' placeholder="请输入名字" />
+            </div>
+            <div>
+                <label for=" Age">年龄：</label>
+                <input id="_int_年龄" name="Age" onkeyup="this.value=this.value.replace(/^ +| +$/g,'')" placeholder="请输入年龄" />
+            </div>
+            <div>
+                <label for=" Gender">性别：</label>
+                <input type="text" name="Gender" onkeyup="this.value=this.value.replace(/^ +| +$/g,'')" placeholder="请输入性别" />
+            </div>
+            <div>
+                <label for="Email">邮箱：</label>
+                <input type="text" name="Email" placeholder="请输入邮箱" />
+            </div>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+
+    <button onclick="GetValue()">点击</button>
+    <br />
+    <br />
+
+    <p>&#32</p>
+    <button type="button" class="btn-primary">编辑</button>
+    <p>&#32</p>
+    <p>&#32</p>
+    <p>&#32</p>
+    <div id="gamecc">
+        <input type="submit" id="maincontent_param_data_add_submint_btn" value="提交" />
+        <input type="reset" id="maincontent_param_data_add_reset_btn" value="取消" />
+    </div>
+    <p>&#32</p>
+    <button type="button" id="hidebutton" class="btn-primary">隐藏</button>
+    <button type="button" id="showbutton" style="margin-left:20px" class="btn-primary">显示</button>
+    <p>&#32</p>
+
+    <p>&#32</p>
+    <p>&#32</p>
+    <button type="button" id="hidebutton" class="btn-primary" onclick="TestParams(id)">测试点击事件传参</button>
+    <p>&#32</p>
+    <p>&#32</p>
+    <p>&#32</p>
+    <p>测试&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp占位符</p>
+    <p>&#32</p>
+    <p>&#32</p>
+    数量：<input type="number" id="numberbut" value="0" onclick="NoFun(this.value)" />
+    <p>&#32</p>
+    <p>&#32</p>
+    <div id="cishi">
+        <p>国家</p>
+        <select class="col-sm-2">
+            <!--  select 的默认显示方案
+                  方案一： <option value="" disabled selected style="display:none">类别</option>
+            -->
+            <option value="" disabled selected style="display:none">类别</option>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>hello-gamecc666-测试长字符串</option>
+            <option>8</option>
+            <option>7</option>
+            <option>asdf</option>
+            <option>fg</option>
+            <option>9</option>
+            <option>0</option>
+        </select>
+    </div>
+
+    <div id="getpersiondata_body_dropdownbox_div"></div>
+
+    <div id="testanotherline"><h2>Gamecc</h2></div>
+
+    <hr style="border:solid #ff0033">
+    <div>
+        <input type="text" id="testdynamictextbox" disabled placeholder="名称" />
+        <button type="button" id="changevaluebut" onclick="ChangeValueBut()" class="btn-primary">改变值</button>
+    </div>
+    <p>&#32</p>
+    <p>&#32</p>
+    <!--测试按列排-->
+    <h2>测试按列排</h2>
+    <div style="background-color:aqua">
+        <ul style="float:left">
+            <li>数据一<br />1<br />1</li>
+        </ul>
+        <ul style="float:left">
+            <li>数据二<br />2<br />2</li>
+        </ul>
+        <ul style="float:left">
+            <li>数据三<br />3<br />3</li>
+        </ul>
+        <ul style="float:left">
+            <li>数据四<br />4<br />4</li>
+        </ul>
+        <ul style="float:left">
+            <li>数据五<br />5<br />5</li>
+        </ul>
+    </div>
+    <br />
+    <div style="background-color:azure">
+        <ul style="float:left">
+            <li>数据七<br />7<br />7</li>
+        </ul>
+        <ul style="float:left">
+            <li>数据八<br />8<br />8</li>
+        </ul>
+        <ul style="float:left">
+            <li>数据九<br />9<br />9</li>
+        </ul>
+        <ul style="float:left">
+            <li>数据十<br />10<br />10</li>
+        </ul>
+        <ul style="float:left">
+            <li>数据十一<br />11<br />11</li>
+        </ul>
+    </div>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+
+    <!--测试表单参数传递不设置name时候的情况-->
+    <!--测试一个表单里面的数据个别不提交（实现方法:不在那个字段HTML代码里面添加nam属性）-->
+    <hr style="border:solid #ffd800" />
+    <div>
+        <form  action="/FormDemo/TestHttpRequest" method="post">
+            <table>
+                <tr>
+                    <td>姓名：</td>
+                    <td><input type="text" name="A_Name" value="张三" readonly="readonly" /></td>
+                </tr>
+                <tr>
+                    <td>性别：</td>
+                    <td><input type="text" value="亩" readonly="readonly" /></td>
+                </tr>
+                <tr>
+                    <td>年龄：</td>
+                    <td><input type="text" value="6" readonly="readonly" /></td>
+                </tr>
+                <tr>
+                    <td>食物：</td>
+                    <td><input type="text" name="A_Eat" value="吃凑" readonly="readonly" /></td>
+                </tr>
+            </table>
+            <input type="submit" value="OK" />
+        </form>
+    </div>
+    <hr style="border:solid #ffd800" />
+</body>
+</html>
+<script type="text/javascript"> 
+    var _browsConsoleTest = "gamecc666";
+
+    function NoFun(val) {
+        /* 动态修改value值
+         * 方案一：原生方法=> document.getElementById("numberbut").value = val >= 0 ? val : 0;
+         * 方案二：jQuery =>如下
+         */        
+        var str = val >= 0 ? val : 0;
+        $("#numberbut").val(String(str));
+    };
+    function ChangeValueBut() {
+        $("#testdynamictextbox").attr("value", "gamecc666");
+    };
+
+    $("#testanotherline").append("<h1>666</h1>");
+
+    function TestParams(id) {
+        console.log("----------测试点击事件传参数：" + id);
+    };
+
+    $(function () {
+        //测试隐藏与按钮点击的事件数据
+        $("#hidebutton").click(function (e) {
+            $("#gamecc").hide();
+            console.log("e.target："+e.target);
+            console.log("e.target.id："+e.target.id);
+            console.log("e.target.textContent："+e.target.textContent);
+        });
+        $("#showbutton").click(function (e) {
+            $("#gamecc").show();
+            console.log("e.target : "+e.target);
+            console.log("e.target.id : "+e.target.id);
+            console.log("e.target.textContent : "+e.target.textContent);
+        })
+    });
+
+    //测试JS对字符串的分割
+    var _str = "hello|gamecc|666";
+    console.log("源字符串是：hello|gamecc|666 ,分割后的字符串数组是：");
+    var _aftersplit = _str.split("|");
+    for (var i = 0; i < _aftersplit.length; i++)
+    {
+        console.log("索引i: " + i + " 元素： " + _aftersplit[i]);
+    }
+
+    //测试英语加汉字可不可以查出来
+    console.log($('#_int_年龄').attr("name"));
+
+
+    function GetValue() {
+        console.log("typeof(Age)：" + typeof(document.getElementById('_int').value) + "  ||年龄整形数据的值：" + document.getElementById('_int').value);
+    };
+
+    //以下测试通过可以用
+    $(document).ready(function () {
+        var _nation = "国家";
+        var _res = ("国家" == _nation);
+        console.log(_res);
+        /*
+        *class="col-sm-2"           class="form-control">
+        *$('#getpersiondata_body_dropdownbox_div').append('<select  class="form-control" >\
+*<option>1</option>\
+*<option selected = "selected">2</option>\
+*<option>3</option>\
+*<option>hello-gamecc666-测试长字符串</option>\
+*<option>5</option>\
+*</select>');
+*/
+    });
+
+</script>

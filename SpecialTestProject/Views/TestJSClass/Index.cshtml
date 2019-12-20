@@ -1,0 +1,112 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = null;
+}
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <title>这是按测试Js中的类</title>
+</head>
+<body>
+</body>
+</html>
+<script type="text/javascript">    
+    //ES6之前定义一个类的方法
+    function Animation(name,age) {
+        this.name = name;
+        this.age = age;
+        this.sound = null;
+
+        this.info = function () { 
+            console.log("这只动物的信息：年龄： " + this.age + " 姓名：" + this.name);
+        };
+    };  
+    //ES6之后定义一个类的方法
+    class Persion {
+        constructor(firstname, lastname ) {
+            this.firstname = firstname;
+            this.lastname = lastname;
+        }
+
+        toString() {
+            return ('个人信息=》姓名：' + this.firstname + this.lastname);
+        }
+
+        noLimitSayWord() {
+            return 'hello gamecc666';
+        }
+        //只能读不能设置；类似还有set的用法就不介绍了,详细可参考web:es6.ruanyifeng.com/#docs/class
+        get hasLimitSayWord() {
+            return '没有改变';
+        }
+    }
+
+
+    //通过自执行函数实现类方法的调用
+    $(function () {
+        console.log("************************ES6之前类的使用方法*************************");
+        let dog = new Animation('小狗', '12');
+        Animation.prototype.sex = null;
+        dog.sex = '母';
+        dog.age = 38;
+        dog.sound = "汪汪汪！";
+        console.log('使用类中原来的方法');
+        dog.info();
+        console.log('实现对类中方法的重写');
+        dog.info = function () {
+            console.log('输出动物信息=》年龄：' + dog.age + '  姓名：' + dog.name + '  性别：' + dog.sex + '  叫声：' + dog.sound);
+        };
+        dog.info();
+        console.log("*************************ES6之后类的使用方法***************************");
+        /*
+         * KeyNote1:可以参考web=>jianshu.com/p/7d58f845557       
+         *       a:Object.prototype.hasOwnProperty()=>返回一个bool值，指示对象自身属性中是否具有指定的属性（也就是是否有指定的键）;该方法会忽略掉从原型链（__proto__）上继承到的属性
+         *       b:与ES5一样，实例的属性除非显示定义在其本身（即定义在this对象上），否则都是定义在原型上（即定义在class上）
+         *       c:对于prototype属性，是一个指针指向一个对象，并不是构造函数专有的，每个函数都会有这个属性，切记只有函数才有
+         *KeyNote1:可以参考web=>developer.mozilla.org
+         *       a:JSProperryDescriptor=>是一个用于声明一个属性是否可以被修改，删除，被枚举的对象
+         */
+        console.log('------测试属性的限制');
+        let descriptor = Object.getOwnPropertyDescriptor(Persion.prototype, 'hasLimitSayWord');
+        let temp = true;
+        //TODO:此处输出的日志有误后需调整
+        if (('set' in descriptor )=='undefined') {
+            temp = false;
+        }
+        else {
+            console.log(descriptor);
+        }
+        console.log(temp);
+        console.log('------测试对属性的读取限制-----')
+        var p = new Persion('粉', '清');
+        //p.noLimitSayWord = "hello"; 注意调用的时候这里没有带括号
+        console.log(p.noLimitSayWord);
+        p.hasLimitSayWord = "改变了";
+        console.log(p.hasLimitSayWord);
+
+        var p1 = new Persion('李', '钰');
+        var p2 = new Persion('周', '天');
+        console.log(p1.toString());                          //通过prototype找不到toString（）方法的时候，会自动延伸到原型上即通过__proto__来找
+        console.log(p1.hasOwnProperty('firstname'));         //true
+        console.log(p1.hasOwnProperty('toString'));          //false
+        console.log(p1.__proto__.hasOwnProperty('toString'));//true
+        console.log(p2.prototype === p1.prototype);          //true
+        console.log(p2.__proto__ === p1.__proto__);          //true      
+        console.log('对比两个对象的输出prototype的结果');
+        console.log(p1.prototype);                           //undefined
+        console.log(p1.__proto__);
+        console.log('对比两个对象的输出名字的结果');
+        p1.__proto__.printName = function () { return 'gamecc666' };   //不推荐使用，原因会改变‘类’的初始定义
+        console.log('p1的名字：'+p1.printName());
+        console.log('p2的名字：'+p2.printName());
+    });
+
+    
+
+
+</script>
+
+

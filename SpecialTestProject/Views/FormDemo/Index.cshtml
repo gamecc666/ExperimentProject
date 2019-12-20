@@ -1,0 +1,70 @@
+﻿@{
+    ViewData["Title"] = "FormDemoIndex";
+}
+
+<html>
+<head>
+    <script src="~/jquery-easyui-1.8.1/jquery.min.js"></script>
+    <script src="~/jquery-easyui-1.8.1/jquery.easyui.min.js"></script>
+    <link href="~/jquery-easyui-1.8.1/themes/icon.css" rel="stylesheet" />
+    <link href="~/jquery-easyui-1.8.1/themes/default/easyui.css" rel="stylesheet" />
+    <script src="~/jquery-easyui-1.8.1/locale/easyui-lang-zh_CN.js"></script>
+</head>
+<body>
+    <div>
+        <form id="logindata" method="post">
+            <div>
+                <label for="name">姓名：</label>
+                <input class="easyui-validatebox textbox" name="Name" data-options="required:true,novalidate:true" />
+            </div>
+            <div>
+                <label for=" age">年龄：</label>
+                <input class="easyui-validatebox textbox" name="Age" data-options="required:true,novalidate:true" />
+            </div>
+            <div>
+                <label for=" gender">性别：</label>
+                <input class="easyui-validatebox textbox" name="Gender" data-options="required:true,novalidate:true" />
+            </div>
+            <div>
+                <label for="email">邮箱：</label>
+                <input class="easyui-validatebox textbox" name="Email" data-options="validType:'email',novalidate:true" />
+            </div>
+        </form>
+    </div>
+    <div>
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()">Submit</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()">Clear</a>
+
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+    function submitForm() {
+        jQuery.noConflict();
+        $('#logindata').form({
+            url: "/FormDemo/Index",
+            onSubmit: function () {
+                //这里可以做一些对前端数据的检查，如果返回false的话就会阻止表单的提交
+                var isValid = $(this).form('validate');
+                return isValid;
+            },
+            success: function (data) {
+                console.log(data.success);
+            }
+        });
+       jQuery.noConflict();
+        $('#logindata').submit();
+    }	
+    function clearForm() {
+        jQuery.noConflict();
+		$('#logindata').form('clear');
+	}
+    $(function () {
+        jQuery.noConflict();
+        $('.validatebox-text').bind('blur', function () {
+            jQuery.noConflict();
+			$(this).validatebox('enableValidation').validatebox('validate');
+			});
+		})
+</script>
+

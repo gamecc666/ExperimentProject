@@ -1,0 +1,32 @@
+﻿@model Microsoft.AspNetCore.Http.HttpContext
+@{
+    ViewData["Title"] = "Index";
+    Layout = null;
+}
+
+
+<table>
+    <tr>
+        <td>RequestBody流</td>
+        <td>@Model.Request.Body</td>
+    </tr>
+    <tr>
+        <td>Content-Length头</td>
+        <td>@Model.Request.ContentLength</td>
+    </tr>
+    <tr>
+        <td>Content-Type头</td>
+        <td> @Model.Request.ContentType</td>
+    <tr>
+        <td>Cookies </td>
+        <td>@Model.Request.Cookies</td>
+    </tr>
+    <tr>
+        <td>IsHttps</td>
+        <td>@Model.Request.IsHttps</td>
+    </tr>
+    <tr>
+        <td>Host </td>
+        <td>@Model.Request.Host</td>
+    </tr>
+</table>
