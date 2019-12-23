@@ -15,6 +15,8 @@ namespace ConsoleProject
             Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd hh:mm"));
             //测试循环索引
             Recyle.TestCycle();
+            //测试父字符串包含子字符串
+            StringContains.IsStringHasSubstring();
             Console.WriteLine("*****************************************测试结束**********************************************");
             Console.ReadKey();
         }     
