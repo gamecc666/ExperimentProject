@@ -1,0 +1,173 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+
+    <script src="~/js/ECharts/echarts.js" type="text/javascript"></script>
+    <script src="~/lib/jquery/dist/jquery.js" type="text/javascript"></script>
+    <title>封装各中表</title>
+    <style type="text/css">
+        #parent_div {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #show_div {
+            background-color: aqua;
+            width: 1000px;
+            height: 500px;
+        }
+    </style>
+</head>
+<body>
+    <div id="parent_div">
+        <div id="btn_div">
+            <button id="line_chart_btn">折线图</button>
+            <button id="bar_chart_btn">柱状图</button>
+            <button id="area_chart_btn">面积图</button>
+            <button id="bread_chart_btn">面积图</button>
+        </div>
+        <div id="show_div"></div>
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+    //单变量折线图
+    $('#line_chart_btn').on('click', function (event) {       
+        let url = '/Entrance/LineChartBtnEvent';
+        let domid = 'show_div';
+        let echarttype = 'line';
+       
+        GetEchartsData(url, domid, echarttype);
+    });
+    //单变量柱状图
+    $('#bar_chart_btn').on('click', function (event) {
+        let url = '/Entrance/BarChartBtnEvent';
+        let domid = 'show_div';
+        let echarttype = 'bar';
+
+         GetEchartsData(url, domid, echarttype);
+    });
+    //单变量面积图
+    $('#area_chart_btn').on('click', function (event) {
+        let url = '/Entrance/AreaChartBtnEvent';
+        let domid = 'show_div';
+        let echarttype = 'arealine';
+
+         GetEchartsData(url, domid, echarttype);
+    });
+    //多变量堆叠区域图
+    $('#bread_chart_btn').on('click', function (event) {
+        let url = '/Entrance/BreadChartBtnEvent';
+        let domid = 'show_div';
+        let echarttype = 'arealine';
+
+        GetEchartsData(url, domid, echarttype);
+    });
+
+   
+    /**********************************************************************************************
+    *  作者：刘跃灿
+    *  函数说明：从后台动态获取表数据
+    *  函数名称：GetEchartsData(url,domid,echarttype)
+    *  参数：url：后台方法的URL
+    *        domid：容器的id   
+    *        echarttype：表的类型（eg：折线图，柱状图，面积图）
+    *  返回：void
+    *  修改历史：
+    *          日期           版本               修改人             修改内容
+    *        2019-12-24       1.0                刘跃灿             初始版本
+    **********************************************************************************************/
+    function GetEchartsData(url,domid,echarttype) {
+        let promise = new Promise(function (resolve, reject) {
+             $.getJSON(url, function (data) {                       
+                 //data是一个拥有xdatatype，xdata两个数组的对象
+                 resolve(data);
+             }); 
+        });
+        promise.then(function (data) {            
+            BuildFunction(domid, data.xdatatype, data.xdata, echarttype);
+        });      
+    }
+    /**********************************************************************************************
+    *  作者：刘跃灿
+    *  函数说明：生成表实例
+    *  函数名称：BuildFunction(domId, xDataType, xData, echartType)
+    *  参数：domId：容器的id      
+    *        xDataType：x轴数据的属性名
+    *        xData：x轴的数据
+    *        echartType：生成表的类型（eg：折线图，柱状图，面积图）
+    *  返回：void
+    *  修改历史：
+    *          日期           版本               修改人             修改内容
+    *        2019-12-24       1.0                刘跃灿             初始版本
+    **********************************************************************************************/
+    function BuildFunction(domId, xDataType, xData, echartType) {
+        //console.log('------come in BuildFunction()-------');
+        DeleteInstance(domId);
+        let dom = document.getElementById(domId);
+        let myCharts = echarts.init(dom);
+        option = null;
+        switch (echartType) {
+            case 'line':
+            case 'bar':
+                option = {
+                        xAxis: {
+                            type: 'category',                           
+                            data:xDataType
+                        },
+                        yAxis: {
+                            type:'value'
+                        },
+                        series: [{
+                            data: xData,
+                            type: echartType,                           
+                        }]
+                    }
+                break;
+            case 'arealine':
+                option = {
+                    xAxis: {
+                        type: 'category',
+                        boundaryGap: false,       //坐标轴两边留白策略，默认为true这时候刻度值时作为分隔线，标签后台数据点都会在两个刻度之间的带（band）中间
+                        data:xDataType
+                    },
+                    yAxis: {
+                        type:'value'
+                    },
+                    series: [{
+                        data: xData,
+                        type: 'line',
+                        areaStyle: {}           //面积的样式默认红色
+                    }]
+                }
+                break;
+        }
+        
+        if (option && typeof option === "object") {
+            myCharts.setOption(option, true);
+        }
+    }
+    /**********************************************************************************************
+    *  作者：刘跃灿
+    *  函数说明：删除一个div下面的表实例
+    *  函数名称：DeleteInstance(domid)
+    *  参数：domid：容器的id      
+    *  返回：void
+    *  修改历史：
+    *          日期           版本               修改人             修改内容
+    *        2019-12-24       1.0                刘跃灿             初始版本
+    **********************************************************************************************/
+    function DeleteInstance(domid) {
+        //console.log('----delete the last table----domid:', domid);
+        let echartsIns = echarts.getInstanceByDom($(`#${domid}`)[0]);
+        if (echartsIns) {
+            //console.log('--delete success');
+            echarts.dispose(echartsIns);
+        }
+    }
+</script>
+
