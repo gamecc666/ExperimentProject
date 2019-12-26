@@ -17,6 +17,8 @@ namespace ConsoleProject
             Recyle.TestCycle();
             //测试父字符串包含子字符串
             StringContains.IsStringHasSubstring();
+            string path = @"D:\ZYAPPXmlData\BackData";
+            GetFileNames.GetFilesName(path);
             Console.WriteLine("*****************************************测试结束**********************************************");
             Console.ReadKey();
         }     
