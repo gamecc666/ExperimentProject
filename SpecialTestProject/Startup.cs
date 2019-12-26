@@ -105,7 +105,7 @@ namespace SpecialTestProject
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=FrontAndBackDataInteract}/{action=index}/{id?}");
+                    template: "{controller= FormDemo}/{action=Index}/{id?}");
             });
             //app.Run(async (context) =>
             //{
