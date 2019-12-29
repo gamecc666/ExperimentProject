@@ -20,6 +20,10 @@ namespace ConsoleProject
             string path = @"D:\ZYAPPXmlData\BackData";
             GetFileNames.GetFilesName(path);
             Console.WriteLine("*****************************************测试结束**********************************************");
+
+            string[] atr = new string[] { "1"};
+            atr = null;
+            Console.WriteLine(atr);
             Console.ReadKey();
         }     
     }
