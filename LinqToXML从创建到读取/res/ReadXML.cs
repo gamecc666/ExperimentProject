@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml;
 using System.Xml.Linq;
 
 /*
@@ -37,6 +38,30 @@ namespace LinqToXML从创建到读取.res
                 }
             } 
             catch (Exception errorinfo) {
+                statusCode = false;
+                errorMsg = errorinfo.ToString();
+            }
+            return statusCode ? "读取成功！" : ($"读取失败，失败信息：{errorMsg}");
+        }
+        public static string ReadXMLFileAtt(string filepath)
+        {
+            bool statusCode = true;
+            string errorMsg = null;
+            try
+            {
+                XElement treeRoot = XElement.Load(filepath);
+                Console.WriteLine("输出读取的信息：\n" + treeRoot);
+                //开始筛选数据并进行操作
+                IEnumerable<XElement> childNodes = from node in treeRoot.Descendants("Info")
+                                                   where node.Attribute("id")!=null && node.Attribute("id").Value=="gg"
+                                                   select node;
+                foreach (XElement node in childNodes)
+                {
+                    Console.WriteLine($"带有属性作者的节点 {node.Attribute("id").Name} || {node.Attribute("id").Value}");                   
+                }
+            }
+            catch (Exception errorinfo)
+            {
                 statusCode = false;
                 errorMsg = errorinfo.ToString();
             }
