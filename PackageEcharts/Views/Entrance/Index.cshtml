@@ -117,10 +117,22 @@
                 option = {
                         xAxis: {
                             type: 'category',                           
-                            data:xDataType
+                            data: xDataType,
+                            axisLine: {
+						        lineStyle: {
+							            color: '#FF0000',
+							            width: 2
+						            }
+					        },
                         },
                         yAxis: {
-                            type:'value'
+                            type: 'value',
+                            axisLine: {
+						        lineStyle: {
+							    color: '#FF0000',
+							    width: 2
+						        }
+					        },
                         },
                         series: [{
                             data: xData,
@@ -132,6 +144,7 @@
                 option = {
                     xAxis: {
                         type: 'category',
+
                         boundaryGap: false,       //坐标轴两边留白策略，默认为true这时候刻度值时作为分隔线，标签后台数据点都会在两个刻度之间的带（band）中间
                         data:xDataType
                     },

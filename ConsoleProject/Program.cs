@@ -9,7 +9,7 @@ namespace ConsoleProject
         static void Main(string[] args)
         {
             Console.WriteLine("*****************************************开始测试**********************************************");
-            
+
             //C#7.0元组，返回多个值
             //BackValueTuple.GetPerInfo();
             //设置日期格式
@@ -20,6 +20,10 @@ namespace ConsoleProject
             //StringContains.IsStringHasSubstring();
             //string path = @"D:\ZYAPPXmlData\BackData";
             //GetFileNames.GetFilesName(path);
+            double a = 5.35;
+            double b = 6.354;
+            var res = a / b;
+            Console.WriteLine($"输出运算结果：{res.ToString("#0.0000")}");
             Console.WriteLine("*****************************************测试结束**********************************************");
 
             //string[] atr = new string[] { "1"};
