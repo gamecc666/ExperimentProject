@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Index";
 }
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -28,45 +27,63 @@
             <button id="line_chart_btn">折线图</button>
             <button id="bar_chart_btn">柱状图</button>
             <button id="area_chart_btn">面积图</button>
-            <button id="bread_chart_btn">面积图</button>
+            <button id="morevar_chart_btn">多变量折线图</button>
+            <button id="morevararea_chart_btn">多变量面积折线图</button>
         </div>
         <div id="show_div"></div>
     </div>
 </body>
 </html>
 <script type="text/javascript">
-    //单变量折线图
-    $('#line_chart_btn').on('click', function (event) {       
-        let url = '/Entrance/LineChartBtnEvent';
-        let domid = 'show_div';
-        let echarttype = 'line';
+    $(document).ready(function () {
+        console.log('-----页面结构架加载完毕');
+        BtnEventLis();
+    });
+    var BtnEventLis = () => {
+        //单变量折线图
+        $('#line_chart_btn').on('click', function (event) {       
+            let url = '/Entrance/LineChartBtnEvent';
+            let domid = 'show_div';
+            let echarttype = 'line';
        
-        GetEchartsData(url, domid, echarttype);
-    });
-    //单变量柱状图
-    $('#bar_chart_btn').on('click', function (event) {
-        let url = '/Entrance/BarChartBtnEvent';
-        let domid = 'show_div';
-        let echarttype = 'bar';
+            GetEchartsData(url, domid, echarttype);
+        });
+        //单变量柱状图
+        $('#bar_chart_btn').on('click', function (event) {
+            let url = '/Entrance/BarChartBtnEvent';
+            let domid = 'show_div';
+            let echarttype = 'bar';
 
-         GetEchartsData(url, domid, echarttype);
-    });
-    //单变量面积图
-    $('#area_chart_btn').on('click', function (event) {
-        let url = '/Entrance/AreaChartBtnEvent';
-        let domid = 'show_div';
-        let echarttype = 'arealine';
+             GetEchartsData(url, domid, echarttype);
+        });
+        //单变量面积图
+        $('#area_chart_btn').on('click', function (event) {
+            let url = '/Entrance/AreaChartBtnEvent';
+            let domid = 'show_div';
+            let echarttype = 'arealine';
 
-         GetEchartsData(url, domid, echarttype);
-    });
-    //多变量堆叠区域图
-    $('#bread_chart_btn').on('click', function (event) {
-        let url = '/Entrance/BreadChartBtnEvent';
-        let domid = 'show_div';
-        let echarttype = 'arealine';
+             GetEchartsData(url, domid, echarttype);
+        });
+        //多变量折线图
+        $('#morevar_chart_btn').on('click', function (event) {
+            console.log('多变量曲线图');
+            let url = '/Entrance/MoreVarChartBtnEvent/line';
+            let domid = 'show_div';
+            let echarttype = '折线图堆叠';
 
-        GetEchartsData(url, domid, echarttype);
-    });
+            GetEchartsData(url, domid, echarttype);
+        });
+        //多变量折线面积图
+        $('#morevararea_chart_btn').on('click', function (event) {
+            console.log('多变量面积曲线图');
+            let url = '/Entrance/MoreVarChartBtnEvent/area';
+            let domid = 'show_div';
+            let echarttype = '折线图堆叠';
+
+            GetEchartsData(url, domid, echarttype);
+        });
+    }
+    
 
    
     /**********************************************************************************************
@@ -88,14 +105,81 @@
                  resolve(data);
              }); 
         });
-        promise.then(function (data) {            
-            BuildFunction(domid, data.xdatatype, data.xdata, echarttype);
-        });      
+        if (echarttype == "折线图堆叠") {
+            console.log('进入了画折现堆叠图的方法中');
+            promise.then(function (data) {
+                console.log('----sobjarr:', data.sobjarr);
+                MoreBuildFunction(domid,data.ctitle,data.ldata,data.xdata,data.sobjarr);
+            });
+        }
+        else {
+            promise.then(function (data) {            
+                SingleBuildFunction(domid, data.xdatatype, data.xdata, echarttype);
+            });     
+        }        
     }
     /**********************************************************************************************
     *  作者：刘跃灿
     *  函数说明：生成表实例
-    *  函数名称：BuildFunction(domId, xDataType, xData, echartType)
+    *  函数名称：MoreBuildFunction(domId, ctitle, ldata)
+    *  参数：domId：  字符串       容器的id                
+    *        ctitle： 字符串       表的标头
+    *        ldata：  字符串数组   图例的数据      
+    *        xdata：  字符串数组   x轴要显示的数据
+    *        sobjarr: 对象数组     每个变量要展示的图
+    *  返回：void
+    *  修改历史：
+    *          日期           版本               修改人             修改内容
+    *        2019-01-14       1.0                刘跃灿             初始版本
+    **********************************************************************************************/
+    function MoreBuildFunction(domId,ctitle,ldata,xdata,sobjarr) {
+        DeleteInstance(domId);
+        let dom = document.getElementById(domId);
+        let myCharts = echarts.init(dom);
+        option = null;
+        option = {
+            title: {
+                text: ctitle
+            },
+            //设置提示框
+            tooltip: {
+                trigger: 'axis'
+            },
+            //设置图例
+            legend: {
+                data: ldata
+            },
+            //绘图网格 
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containlabel: true
+            },
+            //工具栏操作（官方Demo的右上角）：内置的有导出图片，数据视图，动态类型切换，数据区域缩放，重置五个工具；根据需要设置，在这里测试就不显示各种工具
+            //toolbox: {     
+            //    feature: {
+            //        saveAsImage: {}
+            //    }
+            //}
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,         //两边留白策略（默认两边留空白），通常设置为false
+                data: xdata
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: sobjarr
+        };
+        if (option && typeof option === "object") {
+            myCharts.setOption(option, true);
+        }
+    }
+    /**********************************************************************************************
+    *  作者：刘跃灿
+    *  函数说明：生成表实例
+    *  函数名称：SingleBuildFunction(domId, xDataType, xData, echartType)
     *  参数：domId：容器的id      
     *        xDataType：x轴数据的属性名
     *        xData：x轴的数据
@@ -105,7 +189,7 @@
     *          日期           版本               修改人             修改内容
     *        2019-12-24       1.0                刘跃灿             初始版本
     **********************************************************************************************/
-    function BuildFunction(domId, xDataType, xData, echartType) {
+    function SingleBuildFunction(domId, xDataType, xData, echartType) {
         //console.log('------come in BuildFunction()-------');
         DeleteInstance(domId);
         let dom = document.getElementById(domId);

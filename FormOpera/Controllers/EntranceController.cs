@@ -31,6 +31,6 @@ namespace 一个表单多个提交按钮.Controllers
             string age = col["age"].ToString();
 
             Console.WriteLine("***************表单提交来的数据：");           
-        }
+        }        
     }
 }
