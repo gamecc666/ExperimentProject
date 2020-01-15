@@ -11,7 +11,7 @@ namespace ConsoleProject
             Console.WriteLine("*****************************************开始测试**********************************************");
 
             //C#7.0元组，返回多个值
-            //BackValueTuple.GetPerInfo();
+            BackValueTuple.GetPerInfo();
             //格式化数据、包含保留小数
             DataFormat.FormatInfo();
             //测试循环索引

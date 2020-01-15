@@ -51,7 +51,7 @@ namespace PackageEcharts.Controllers
 
             return Json(new { xdatatype, xdata });
         }
-        //多变量折线图&&多变量面积图
+        //多变量折线图&&多变量面积图（Stacked area chart/Stacked Line Chart）
         public IActionResult MoreVarChartBtnEvent(string id)
         {
             List<double[]> ddata = new List<double[]>();
