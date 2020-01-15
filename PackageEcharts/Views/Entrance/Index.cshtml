@@ -14,8 +14,7 @@
             flex-direction: column;
         }
 
-        #show_div {
-            background-color: aqua;
+        #show_div {            
             width: 1000px;
             height: 500px;
         }
@@ -135,7 +134,7 @@
     function MoreBuildFunction(domId,ctitle,ldata,xdata,sobjarr) {
         DeleteInstance(domId);
         let dom = document.getElementById(domId);
-        let myCharts = echarts.init(dom);
+        let myCharts = echarts.init(dom,'dark');   //目前对于Echarts4有3个主题：1=>啥都不写白  2=>light粉 3=>dark黑
         option = null;
         option = {
             title: {
@@ -151,9 +150,9 @@
             },
             //绘图网格 
             grid: {
-                left: '3%',
+                left: '8%',
                 right: '4%',
-                bottom: '3%',
+                bottom: '7%',
                 containlabel: true
             },
             //工具栏操作（官方Demo的右上角）：内置的有导出图片，数据视图，动态类型切换，数据区域缩放，重置五个工具；根据需要设置，在这里测试就不显示各种工具
@@ -193,7 +192,7 @@
         //console.log('------come in BuildFunction()-------');
         DeleteInstance(domId);
         let dom = document.getElementById(domId);
-        let myCharts = echarts.init(dom);
+        let myCharts = echarts.init(dom,'dark');
         option = null;
         switch (echartType) {
             case 'line':
