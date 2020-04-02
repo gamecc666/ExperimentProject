@@ -1,8 +1,6 @@
 ﻿using ConsoleProject.interfacelib;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ConsoleProject
 {
@@ -54,7 +52,10 @@ namespace ConsoleProject
             //Console.WriteLine(atr);
             //SortList的使用 两种方案实现简单地排序；至于其他方法就不一一展示了，详细请参考网址：https://www.runoob.com/csharp/csharp-sortedlist.html
             //TestSortList();   使用默认的排序方法
-            TestCustomSL();     //使用自定义的排序方法
+            //TestCustomSL();     //使用自定义的排序方法
+
+            //测试可空值的使用
+            NullOrNot.NullableUse();
 
             Console.WriteLine("*****************************************测试结束**********************************************");
             Console.ReadKey();
