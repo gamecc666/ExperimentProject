@@ -55,7 +55,11 @@ namespace ConsoleProject
             //TestCustomSL();     //使用自定义的排序方法
 
             //测试可空值的使用
-            NullOrNot.NullableUse();
+            //NullOrNot.NullableUse();            
+
+            //string filepath = DateTime.Now.ToString("yyyyMMddhhmmss") + ".txt";
+            //FileOperateHelp.CreateFile(filepath);
+            FileOperateHelp.AppendToFile("20200420044149.txt");
 
             Console.WriteLine("*****************************************测试结束**********************************************");
             Console.ReadKey();
