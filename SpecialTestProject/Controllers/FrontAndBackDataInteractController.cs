@@ -1,9 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SpecialTestProject.Models;
 using System;
+using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 //参考：cnblogs.com/holly8/p/11507634.html(.net)
 namespace SpecialTestProject.Controllers
@@ -87,7 +92,33 @@ namespace SpecialTestProject.Controllers
                 Console.WriteLine($"{item}");
             }
             return Json(arr);
-        }      
+        }
+        //异步Json代传数据  该方法未添加服务不能运行，详细请看SignalRChat项目代码
+        [HttpPost]
+        public async Task<JsonResult> Login_Post()
+        {
+            var username = Request.Form["username"];
+            var userpwd = Request.Form["userpwd"];
+
+            string userId = Guid.NewGuid().ToString().Replace("-", "");
+            var claims = new List<Claim>()
+            {
+                new Claim(ClaimTypes.Name,username),   //储存用户name
+                new Claim(ClaimTypes.NameIdentifier,userId)  //储存用户id
+            };
+            //身份【似身份证，多个声明（姓名，民族等）构成】
+            var indentity = new ClaimsIdentity(claims, "formlogin");
+            //证件所有者【类似身份证所有者】
+            var claimPrincipal = new ClaimsPrincipal(indentity);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimPrincipal);
+            if (claimPrincipal.Identity.IsAuthenticated)
+            {
+                return Json(new { code = "success", msg = "登陆成功" });
+            }
+            else
+                return Json(new { code = "failed", msg = "登陆失败" });
+
+        }
     }
    
 }

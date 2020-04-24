@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewData["Title"] = "Login_Post";
+}
+<h1>Entrance</h1>
+<button onclick="btnLogin()">登录聊天功能</button>
+
+<script type="text/javascript">
+    function btnLogin() {
+        var name = "gamecc";
+        var pwd = "123456";
+
+        if (name == "") {
+            alert("用户名不能为空");
+        }
+        else if (pwd == "") {
+            alert("密码不能为空");
+        }
+        else {
+            var params = {};
+            params.username = name;
+            params.userpwd = pwd;
+
+            $.ajax({
+                url: '/Home/Entrance_post',
+                type: 'post',
+                data: params,
+                dataType: 'json',
+                async: true,
+                error: function () {
+                    alert('登陆失败！');
+                },
+                success: function (data) {
+                    if (data.code == 'success') {
+                        alert('登陆成功');
+                        window.location.href = '/Home/Index';
+                    }
+                    else {
+                        alert(data.msg);
+                    }
+                }
+            });
+        }
+    }
+</script>
+
