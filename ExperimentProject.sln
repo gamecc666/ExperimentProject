@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29418.71
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientStorage", "ClientStorage\ClientStorage.csproj", "{D636A6A4-0122-4F8E-8999-DBDBF3A84A50}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "页面局部刷新", "WebApplication1\页面局部刷新.csproj", "{527C3EE7-2D50-4E25-B03A-5A45CF3DA926}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D636A6A4-0122-4F8E-8999-DBDBF3A84A50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D636A6A4-0122-4F8E-8999-DBDBF3A84A50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D636A6A4-0122-4F8E-8999-DBDBF3A84A50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D636A6A4-0122-4F8E-8999-DBDBF3A84A50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{527C3EE7-2D50-4E25-B03A-5A45CF3DA926}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{527C3EE7-2D50-4E25-B03A-5A45CF3DA926}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{527C3EE7-2D50-4E25-B03A-5A45CF3DA926}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{527C3EE7-2D50-4E25-B03A-5A45CF3DA926}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A5114FCE-1BA2-4716-810E-8BE0973A10AA}
+	EndGlobalSection
+EndGlobal
