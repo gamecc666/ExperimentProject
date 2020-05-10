@@ -12,6 +12,7 @@
 	</body>
 </html>
 <script type="text/javascript">
+	console.log("-----------------------单例模式----------------------");
      class CreateUser{
          constructor(name) {
              this.name=name;
@@ -43,4 +44,20 @@
      b.tipAlert('gamecc666');
      console.log(a.getName());
      console.log(b.getName());
+	 console.log("-----------------------策略模式----------------------");
+	 var levelOBJ={
+		"A":function(money){
+			return money*4;
+		},
+		"B":function(money){
+			return money*2;
+		},
+		"C":function(money){
+			return money*3;
+		}
+	}
+	var calculateBouns=function(level,money){
+		return levelOBJ[level](money);
+	};
+	console.log(`输出相应的计算结果:${calculateBouns("A",1000)}`)
 </script>
