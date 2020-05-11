@@ -59,5 +59,31 @@
 	var calculateBouns=function(level,money){
 		return levelOBJ[level](money);
 	};
-	console.log(`输出相应的计算结果:${calculateBouns("A",1000)}`)
+	console.log(`输出相应的计算结果:${calculateBouns("A",1000)}`);
+	console.log("------------------------------中介者模式----------------------------------");
+	var mediator=(function(){
+		var colorSelect=document.getElementById('colorSelect');
+		var memorySelect=document.getElementById('memorySelect');
+		var numSelect=document.getElementById('numSelect');
+		return {
+			changed:function(obj){
+				switch(obj){
+					case colorSelect:
+					//TODO：做函数处理
+					break;
+					case memorySelect:
+					//TODO：做函数处理
+					break;
+					case numSelect:
+					//TODO：做函数处理
+					break;				
+				}
+			}
+		};
+	})();
+	colorSelect.oncchange=function(){mediator.changed(this)};
+	memorySelect.oncchange=function(){mediator.changed(this)};
+	numSelect.oncchange=function(){mediator.changed(this)};
+
+	
 </script>
