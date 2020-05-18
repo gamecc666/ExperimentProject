@@ -12,7 +12,24 @@
 	</body>
 </html>
 <script type="text/javascript">
-	console.log("-----------------------单例模式----------------------");
+	console.log("---------------------单例模式01------------------------");
+	class Persion{
+		constructor(name){
+			this.name=name;
+			this.instance=null;
+		}
+		static GetInstance(name){
+			if(!this.instance)
+			{
+				this.instance=new Persion(name);
+			}
+			return this.instance;
+		}
+	}
+	var obj1=new Persion.GetInstance("gamecc");
+	console.log(`obj1的名字是${obj1.name}`);
+
+     console.log("-----------------------单例模式02----------------------");
      class CreateUser{
          constructor(name) {
              this.name=name;
@@ -84,6 +101,5 @@
 	colorSelect.oncchange=function(){mediator.changed(this)};
 	memorySelect.oncchange=function(){mediator.changed(this)};
 	numSelect.oncchange=function(){mediator.changed(this)};
-
 	
 </script>
