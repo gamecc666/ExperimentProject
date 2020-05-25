@@ -9,6 +9,7 @@ using TodoApi.Models;
 
 namespace TodoApi.Controllers
 {
+    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]       //此属性指示控制器响应WebAPI请求
     public class TodoController : ControllerBase
@@ -24,6 +25,21 @@ namespace TodoApi.Controllers
             }
         }
         //GET:api/Todo
+        /// <summary>
+        /// GetTodoItems function
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST /Todo
+        ///     {
+        ///        "id": 1,
+        ///        "name": "Item1",
+        ///        "isComplete": true
+        ///     }
+        ///
+        /// </remarks>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TodoItem>>> GetTodoItems()
         {
