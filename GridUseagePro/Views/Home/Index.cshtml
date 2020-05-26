@@ -8,6 +8,10 @@
     <script src="~/lib/jquery/dist/jquery.js" type="text/javascript"></script>
     <title>使用grid布局</title>
     <style type="text/css">
+        body{
+            width:100%;
+            height:100%;
+        }
         #con {
             width: 30%;
             height: 20%;
@@ -60,23 +64,121 @@
             right:-10px; 
             top:-10px;
         }
+        #interaction {
+            width: 30%;
+            height: 35%;
+            background-color: aquamarine;
+            float: left;
+            z-index: 999;
+            position: absolute;
+            margin-left:35%;            
+        }
+        #pastecontent{           
+            width:100%;
+            height:100%;
+            resize:none
+        }
+        .shadow{
+            width:100%;
+            height:100%;
+            position:absolute;
+            left:0;
+            top:0;
+            z-index:998;
+            background-color:black;
+            opacity:0.6;
+        }
     </style>
 </head>
-<body> 
-    <div id="con">       
+<body>
+    @*遮罩层*@
+    <div class="shadow"></div>
+    @*弹窗*@
+    <div id="interaction">
+        <div id="button_group">
+            <button id="close_messagebox">Close</button>
+            <button id="ok_messagebox">OK</button>
+        </div>
+        <div id="input_contain">
+            <textarea id="pastecontent"></textarea>
+        </div>        
+    </div>
+
+    @*这里可以比较readonly与disabled，在添加onclick时候的区别*@
+    @*<input type="text" id="testin" value="" onclick="testinEvent()" readonly="readonly" />*@
+
+    <div id="con">
         <button type="button" id="noclassified_add" class="add_paste"></button>
     </div>
+    @*库引用*@
     <script src="~/lib/jquery/dist/jquery.js" type="text/javascript"></script>
 </body>
 </html>
 <script type="text/javascript">  
+   
+    /////测试代码
+    //$('#testin').val("gamecc666");
+    ////点击的时候弹窗的处理
+   
+    //function testinEvent() {
+    //    console.log('---点击testin开始显示弹窗');
+    //    let str = $('#testin').val().toString();
+    //    $("#pastecontent").text(str);
+    //    $("#interaction").css("display", "");
+
+    //    $(".shadow").css("display", "");
+    //}
+    
+
+
+    ///实践代码
+    //状态初始化
+    var clickobjid = "";
+    $("#interaction").css("display", "none");
+    $(".shadow").css("display", "none");
+    //弹窗按钮事件处理
+    $('#close_messagebox').on("click", function () {
+        console.log("点击关闭弹窗按钮");
+        $("#interaction").css("display", "none");
+
+        $(".shadow").css("display", "none");
+    });
+    $('#ok_messagebox').on('click', function () {
+        console.log('点击了ok按钮');
+        let str = $("#pastecontent").val().toString();
+        console.log(`输出textcontent内容：${str}`);
+        //$('#testin').val(str);        
+        $(`#${clickobjid}`).text(str);
+        $("#interaction").css("display", "none");
+
+        $(".shadow").css("display", "none");
+    });
+    //点击显示弹窗
+    function showMessageBox(event) {
+        console.log('点击了textare便签，开始弹出信息输入框||' + event.target.id);
+        console.log(event);
+        clickobjid = event.target.id;
+        let strs = `#${event.target.id}`;
+        let str = $(strs).val().toString();
+        console.log('输出值：' + str);
+        $("#pastecontent").val(str);
+        $("#interaction").css("display", "");
+
+        $(".shadow").css("display", "");
+    }
+
+    //删除对应textarea
     function buttonEvent (node) {
         console.log("----触发了删除事件！");
         console.log(node);
-        $(node)[0].parentNode.remove();       
+        $(node)[0].parentNode.remove();     
     }
-    var pasteNode = "<div class='item'><input type='image' src='/images/delete_pic.jpg' id='delete' name='name' value='' onclick='buttonEvent(this)' /><textarea class='textarea_unclass'></textarea></div>";    
+    
+    //增加便签的事件处理
+    var clickCount = 0;
     $('#noclassified_add').on('click', function (event) {
+        clickCount++;
+        var pasteNode = `<div class='item'><input type='image' src='/images/delete_pic.jpg' id='delete' name='name' value='' onclick='buttonEvent(this)'/><textarea class='textarea_unclass' id='textarea_unclass_${clickCount}' onclick='showMessageBox(event)' readonly='readonly'></textarea></div>`;    
         console.log('点击了增加按钮');        
         $('#noclassified_add').before(pasteNode);
     });
