@@ -6,7 +6,7 @@ namespace SignalRChatPage.Models
     //请参考MSDN上的模型验证
     public class RoomModel
     {       
-        [Required]
+        [Required(ErrorMessage="用户名不能为空")]
         [Remote(action:"VeryName",controller: "RoomEntrance")]
         public string NickName { get; set; }
         [Required]
