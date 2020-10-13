@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using ContosoUniversity.Models;
 
 namespace ContosoUniversity.Models
 {
@@ -21,7 +22,7 @@ namespace ContosoUniversity.Models
         public string FirstMidName { get; set; } 
 		
 		[DataType(DataType.Date)]
-		[DisFormat(DateFormatString="0:{yyyy-MM-dd}",ApplyFormatInEditMode=true)]
+		[DisplayFormat(DataFormatString="0:{yyyy-MM-dd}",ApplyFormatInEditMode=true)]
 		[Display(Name="Hire Date")]
 		public DateTime HireDate{get;set;}
 		

@@ -8,21 +8,25 @@ namespace ContosoUniversity.Models
     public class Student
     {
         public int ID { get; set; }
+		
 		[Required]
 		[StringLength(50,MinimumLength=2)]
 		[Display(Name="Last Name")]
 		[RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$")]
         public string LastName { get; set; }
+		
 		[Required]
 		[StringLength(50)]
-//		[RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$")]
+		//[RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$")]
 		[Column("FirstName")]
 		[Display(Name="First Name")]
         public string FirstMidName { get; set; } 
+		
 		[DataType(DataType.Date)]
 		[DisplayFormat(DataFormatString="{0:yyyy-MM-dd}",ApplyFormatInEditMode=true)]
-		[Display(Name=Enrollment Date)]
+		[Display(Name="Enrollment Date")]
         public DateTime EnrollmentDate { get; set; }
+		
 		[Display(Name="Full Name")]
 		public string FullName
 		{

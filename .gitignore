@@ -26,7 +26,6 @@ Migrations/
 bin/
 obj/
 Properties/
-wwwroot/lib/
 
 
 #******************

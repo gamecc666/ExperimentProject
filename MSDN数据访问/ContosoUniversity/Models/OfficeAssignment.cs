@@ -1,5 +1,6 @@
-using System.ComponentModel.DataAnnotaions;
-using System.ComponentModel.DataAnnotaions.Schema;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using ContosoUniversity.Models;
 
 namespace ContosoUniversity
 {
@@ -11,6 +12,6 @@ namespace ContosoUniversity
 		[Display(Name="Office Location")]
 		public string Location{get;set;}
 		
-		public Instructor{get;set;}
+		public Instructor Instructor{get;set;}
 	}
 }
